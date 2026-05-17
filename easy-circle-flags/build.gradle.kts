@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.compose)
+    id("maven-publish")
 }
 
 android {
@@ -15,20 +16,24 @@ android {
     buildFeatures {
         compose = true
     }
+
+    publishing {
+        singleVariant("release") {
+        }
+    }
 }
 
 dependencies {
-    // Coil for image loading + SVG decoding
     implementation(libs.coil)
     implementation(libs.coil.compose)
     implementation(libs.coil.svg)
 
-    // Compose BOM + essential modules
     implementation(platform(libs.androidx.compose.bom.v20251200))
     implementation(libs.androidx.ui)
     implementation(libs.androidx.compose.foundation)
 }
-group = "com.github.YOUR_GITHUB_USERNAME"
+
+group = "com.github.sam-a1a"
 version = "1.0.0"
 
 afterEvaluate {
