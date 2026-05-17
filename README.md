@@ -1,7 +1,9 @@
 ```markdown
 # EasyCircleFlags
 
-A Jetpack Compose library that displays circle flags from the [Circle Flags](https://hatscripts.github.io/circle-flags/) collection. Provide a two‑letter country code and the library loads the corresponding SVG flag automatically.
+A Jetpack Compose library that displays circle flags from the
+[Circle Flags](https://hatscripts.github.io/circle-flags/) collection.
+Provide a two‑letter country code and the library loads the corresponding SVG flag automatically.
 
 ---
 
@@ -179,3 +181,4 @@ SOFTWARE.
 ## Contributing
 
 Pull requests are welcome. If you encounter a missing or broken flag, please open an issue with the country code and a brief description.
+```
