@@ -1,9 +1,7 @@
 ```markdown
 # EasyCircleFlags
 
-A Jetpack Compose library that displays circle flags from the
-[Circle Flags](https://hatscripts.github.io/circle-flags/) collection.
-Provide a two‑letter country code and the library loads the corresponding SVG flag automatically.
+A lightweight Jetpack Compose library for displaying circle country flags using ISO 3166-1 alpha-2 codes. Coil 3 and SVG.
 
 ---
 
@@ -35,7 +33,7 @@ In `gradle/libs.versions.toml`:
 easyCircleFlags = "1.0.0"
 
 [libraries]
-easy-circle-flags = { module = "com.github.sam-a1a:easy-circle-flags", version.ref = "easyCircleFlags" }
+easy-circle-flags = { module = "com.github.sam-a1a:EasyCircleFlags_Android_Kotlin", version.ref = "easyCircleFlags" }
 ```
 
 In your module’s `build.gradle.kts`:
@@ -50,7 +48,7 @@ dependencies {
 
 ```kotlin
 dependencies {
-    implementation("com.github.sam-a1a:easy-circle-flags:1.0.0")
+    implementation("com.github.sam-a1a:EasyCircleFlags_Android_Kotlin:1.0.0")
 }
 ```
 
@@ -64,7 +62,7 @@ import com.sam.easycircleflags.CircleFlag
 CircleFlag(countryCode = "us")
 ```
 
-All flags are loaded and cached automatically by Coil.  
+All flags are loaded and cached automatically by Coil 3.  
 You can use the composable inside `LazyColumn`, `Row`, or any Composable layout.
 
 ```kotlin
@@ -143,7 +141,7 @@ fun CircleFlag(
 
 1. The library constructs a URL:  
    `https://hatscripts.github.io/circle-flags/flags/{countryCode}.svg`
-2. [Coil](https://github.com/coil-kt/coil) handles image loading, SVG decoding, and caching.
+2. [Coil 3](https://github.com/coil-kt/coil) handles network fetching, SVG decoding, and caching.
 3. The flag appears inside a standard Compose `AsyncImage`.
 
 No additional configuration is needed.
