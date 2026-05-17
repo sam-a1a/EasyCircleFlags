@@ -1,3 +1,4 @@
+// build.gradle.kts
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.compose)
@@ -26,6 +27,7 @@ dependencies {
     api(libs.coil)
     api(libs.coil.compose)
     api(libs.coil.svg)
+    api(libs.coil.network)
 
     implementation(platform(libs.androidx.compose.bom.v20251200))
     implementation(libs.androidx.ui)
