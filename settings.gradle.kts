@@ -24,4 +24,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "EasyCircleFlags"
 include(":app")
- 
+include(":easy-circle-flags")
