@@ -18,15 +18,14 @@ android {
     }
 
     publishing {
-        singleVariant("release") {
-        }
+        singleVariant("release") {}
     }
 }
 
 dependencies {
-    implementation(libs.coil)
-    implementation(libs.coil.compose)
-    implementation(libs.coil.svg)
+    api(libs.coil)
+    api(libs.coil.compose)
+    api(libs.coil.svg)
 
     implementation(platform(libs.androidx.compose.bom.v20251200))
     implementation(libs.androidx.ui)
