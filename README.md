@@ -181,4 +181,3 @@ SOFTWARE.
 ## Contributing
 
 Pull requests are welcome. If you encounter a missing or broken flag, please open an issue with the country code and a brief description.
-```
