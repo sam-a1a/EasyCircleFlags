@@ -28,3 +28,18 @@ dependencies {
     implementation(libs.androidx.ui)
     implementation(libs.androidx.compose.foundation)
 }
+group = "com.github.YOUR_GITHUB_USERNAME"
+version = "1.0.0"
+
+afterEvaluate {
+    publishing {
+        publications {
+            create<MavenPublication>("release") {
+                from(components["release"])
+                groupId = group.toString()
+                artifactId = "easy-circle-flags"
+                version = version.toString()
+            }
+        }
+    }
+}
