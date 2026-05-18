@@ -1,4 +1,4 @@
-```markdown
+
 # EasyCircleFlags
 
 A lightweight Jetpack Compose library for displaying circle country flags using ISO 3166-1 alpha-2 codes. Coil 3 and SVG.
