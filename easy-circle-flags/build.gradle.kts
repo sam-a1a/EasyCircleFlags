@@ -37,8 +37,8 @@ dependencies {
     api(libs.coil.svg)
     api(libs.coil.network)
 
-    implementation(platform(libs.androidx.compose.bom.v20251200))
-    implementation(libs.androidx.ui)
+    implementation(platform(libs.androidx.compose.bom))
+    implementation(libs.androidx.compose.ui)
     implementation(libs.androidx.compose.foundation)
 }
 
