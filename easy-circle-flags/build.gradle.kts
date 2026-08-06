@@ -12,6 +12,7 @@ android {
     defaultConfig {
         minSdk = 21
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles("consumer-rules.pro")
     }
 
     // Published to JitPack, so the AAR is compiled against the lowest bytecode
