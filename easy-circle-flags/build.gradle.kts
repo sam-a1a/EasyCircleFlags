@@ -40,6 +40,8 @@ dependencies {
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.compose.ui)
     implementation(libs.androidx.compose.foundation)
+
+    testImplementation(libs.junit)
 }
 
 group = "com.github.sam-a1a"
