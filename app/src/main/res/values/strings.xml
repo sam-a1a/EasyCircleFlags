@@ -3,4 +3,8 @@
     <string name="search_label">Search countries</string>
     <string name="search_clear">Clear search</string>
     <string name="no_matches">No country matches \u201c%1$s\u201d</string>
+    <string name="showcase_sizes">Any size</string>
+    <string name="showcase_fallbacks">While loading, and when a code is unknown</string>
+    <string name="showcase_tinted">Tinted placeholder</string>
+    <string name="showcase_unknown">Unknown code</string>
 </resources>

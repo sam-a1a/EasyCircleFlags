@@ -29,6 +29,7 @@ import com.sam.easy_circle_flags.data.searchCountries
 import com.sam.easy_circle_flags.ui.CountrySearchField
 import com.sam.easy_circle_flags.ui.EmptyState
 import com.sam.easy_circle_flags.ui.FlagGrid
+import com.sam.easy_circle_flags.ui.OptionsShowcase
 import com.sam.easy_circle_flags.ui.theme.EasyCircleFlagsTheme
 
 class MainActivity : ComponentActivity() {
@@ -85,6 +86,9 @@ fun FlagBrowser(modifier: Modifier = Modifier) {
                         top = 16.dp,
                         bottom = innerPadding.calculateBottomPadding() + 16.dp
                     ),
+                    // Hidden while searching: the showcase is a tour of the API,
+                    // not a search result.
+                    header = if (query.isBlank()) ({ OptionsShowcase() }) else null,
                     modifier = Modifier.fillMaxSize()
                 )
             }

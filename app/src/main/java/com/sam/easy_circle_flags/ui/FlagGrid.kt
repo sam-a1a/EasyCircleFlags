@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material3.MaterialTheme
@@ -32,7 +33,8 @@ const val FlagGridTag = "flag-grid"
 fun FlagGrid(
     countries: List<Country>,
     modifier: Modifier = Modifier,
-    contentPadding: PaddingValues = PaddingValues(16.dp)
+    contentPadding: PaddingValues = PaddingValues(16.dp),
+    header: (@Composable () -> Unit)? = null
 ) {
     LazyVerticalGrid(
         // Adaptive rather than a fixed count, so the grid reflows on tablets and in
@@ -43,6 +45,12 @@ fun FlagGrid(
         verticalArrangement = Arrangement.spacedBy(20.dp),
         modifier = modifier.testTag(FlagGridTag)
     ) {
+        if (header != null) {
+            // Spans the row so the header scrolls with the grid rather than sitting in
+            // a separate column above it.
+            item(key = "header", span = { GridItemSpan(maxLineSpan) }) { header() }
+        }
+
         // Keyed by code: without it, filtering the list makes Compose reuse cells
         // against the wrong items and the flags visibly shuffle.
         items(countries, key = { it.code }) { country ->
