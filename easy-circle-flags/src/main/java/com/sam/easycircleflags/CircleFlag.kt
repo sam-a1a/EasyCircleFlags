@@ -47,9 +47,13 @@ fun CircleFlag(
     // layout constraints, which the size modifier below makes exact. Asking for
     // Size.ORIGINAL instead would rasterise every flag at the SVG's own 512x512 - about
     // 1 MB per flag in memory, against roughly 80 KB at a 48dp display size.
+    //
+    // A code that is not a usable flag name resolves to null data, which AsyncImage
+    // draws with `error` (its `fallback` parameter defaults to it) rather than throwing
+    // out of composition and taking the screen down with it.
     val imageRequest = remember(context, countryCode) {
         ImageRequest.Builder(context)
-            .data(CircleFlagUrls.getFlagUrl(countryCode))
+            .data(CircleFlagUrls.getFlagUrlOrNull(countryCode))
             .crossfade(true)
             .build()
     }
