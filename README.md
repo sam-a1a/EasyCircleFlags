@@ -30,7 +30,7 @@ In `gradle/libs.versions.toml`:
 
 ```toml
 [versions]
-easyCircleFlags = "1.0.0"
+easyCircleFlags = "1.1.0"
 
 [libraries]
 easy-circle-flags = { module = "com.github.sam-a1a:EasyCircleFlags_Android_Kotlin", version.ref = "easyCircleFlags" }
@@ -48,7 +48,7 @@ dependencies {
 
 ```kotlin
 dependencies {
-    implementation("com.github.sam-a1a:EasyCircleFlags_Android_Kotlin:1.0.0")
+    implementation("com.github.sam-a1a:EasyCircleFlags_Android_Kotlin:1.1.0")
 }
 ```
 
@@ -100,7 +100,7 @@ CircleFlag(
 | Situation | Result |
 |---|---|
 | Both `placeholderPainter` and `placeholderColor` provided | `placeholderPainter` is used |
-| Only `placeholderColor` provided | Solid color placeholder |
+| Only `placeholderColor` provided | Solid color, drawn as a circle to match the flags |
 | Neither provided | Built‑in flag placeholder vector |
 | Same logic applies to `errorPainter` / `errorColor` |
 
@@ -120,6 +120,7 @@ fun CircleFlag(
     placeholderColor: Color? = null,
     errorPainter: Painter? = null,
     errorColor: Color? = null,
+    imageLoader: ImageLoader = CircleFlagImageLoader.get(LocalContext.current),
 )
 ```
 
@@ -134,6 +135,7 @@ fun CircleFlag(
 | `placeholderColor` | `Color?` | `null` | Solid color shown while the flag loads. |
 | `errorPainter` | `Painter?` | `null` | Custom painter shown when loading fails. Overrides `errorColor`. |
 | `errorColor` | `Color?` | `null` | Solid color shown when loading fails. |
+| `imageLoader` | `ImageLoader` | shared flag loader | The Coil loader to use. Pass your own if the app already has one configured. |
 
 ---
 
@@ -144,7 +146,44 @@ fun CircleFlag(
 2. [Coil 3](https://github.com/coil-kt/coil) handles network fetching, SVG decoding, and caching.
 3. The flag appears inside a standard Compose `AsyncImage`.
 
-No additional configuration is needed.
+No additional configuration is needed. The library declares the `INTERNET`
+permission itself, so there is nothing to add to your manifest.
+
+### One loader for the whole process
+
+Every `CircleFlag` shares a single `ImageLoader`, created on first use and held for the
+life of the process. That matters in a list: an `ImageLoader` owns a memory cache sized
+as a share of the app heap, and the OkHttp client under it owns a connection pool and a
+thread pool, so a per-flag loader would multiply all of it by the number of flags on
+screen.
+
+Flags are also decoded at the size they are drawn rather than the 512x512 the SVGs
+declare - roughly 80 KB in memory for a 48dp flag instead of about 1 MB.
+
+If your app already configures Coil, hand that loader in via `imageLoader` (or install
+this one as Coil's singleton, below) so everything shares one cache.
+
+```kotlin
+class MyApp : Application(), SingletonImageLoader.Factory {
+    override fun newImageLoader(context: PlatformContext): ImageLoader =
+        CircleFlagImageLoaderFactory.newImageLoader(context)
+}
+```
+
+### Country codes
+
+Codes are case-insensitive and validated before they reach the network. Beyond the
+alpha-2 codes, anything the flag set ships works, including subdivisions (`"gb-eng"`),
+underscored names (`"european_union"`) and the language flags (`"language/ar"`).
+
+A code that is not a usable flag name renders the error painter rather than throwing, so
+a bad value from a server response cannot take down the screen. To resolve URLs
+yourself:
+
+```kotlin
+CircleFlagUrls.getFlagUrl("us")        // throws IllegalArgumentException if unusable
+CircleFlagUrls.getFlagUrlOrNull("us")  // null if unusable
+```
 
 ---
 
