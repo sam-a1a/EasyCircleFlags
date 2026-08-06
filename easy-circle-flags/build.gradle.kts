@@ -62,6 +62,11 @@ afterEvaluate {
             create<MavenPublication>("release") {
                 from(components["release"])
                 groupId = group.toString()
+                // Applies to local and manual publishing only. JitPack overrides it and
+                // serves the artifact under the repository name instead, so consumers
+                // depend on com.github.sam-a1a:EasyCircleFlags - which is what the
+                // README documents. Renaming this will not change the JitPack
+                // coordinate; renaming the repository would.
                 artifactId = "easy-circle-flags"
                 version = version.toString()
             }

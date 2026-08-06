@@ -33,7 +33,7 @@ In `gradle/libs.versions.toml`:
 easyCircleFlags = "1.1.0"
 
 [libraries]
-easy-circle-flags = { module = "com.github.sam-a1a:easy-circle-flags", version.ref = "easyCircleFlags" }
+easy-circle-flags = { module = "com.github.sam-a1a:EasyCircleFlags", version.ref = "easyCircleFlags" }
 ```
 
 In your module’s `build.gradle.kts`:
@@ -48,7 +48,7 @@ dependencies {
 
 ```kotlin
 dependencies {
-    implementation("com.github.sam-a1a:easy-circle-flags:1.1.0")
+    implementation("com.github.sam-a1a:EasyCircleFlags:1.1.0")
 }
 ```
 
