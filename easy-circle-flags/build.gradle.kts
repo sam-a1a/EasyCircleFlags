@@ -54,7 +54,7 @@ dependencies {
 }
 
 group = "com.github.sam-a1a"
-version = "1.0.0"
+version = "1.1.0"
 
 afterEvaluate {
     publishing {
