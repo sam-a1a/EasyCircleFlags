@@ -36,6 +36,28 @@ android {
     buildFeatures {
         compose = true
     }
+
+    packaging {
+        resources {
+            excludes += setOf(
+                // Metadata for kotlin-reflect, which is not on the runtime classpath;
+                // ~53 KB of files nothing can read.
+                "**/*.kotlin_builtins",
+                // Compile-time only: the Kotlin compiler reads these, the app never does.
+                "**/*.kotlin_metadata",
+                "**/*.kotlin_module",
+                // Coroutines debug agent index, used only under the debugger.
+                "DebugProbesKt.bin",
+                // Per-artifact build stamps AndroidX ships; no runtime meaning.
+                "META-INF/*.version",
+                "META-INF/androidx.*.version",
+                "META-INF/com.android.*.version"
+            )
+            // Note: META-INF/**/LICENSE.txt is another ~51 KB and is commonly excluded
+            // too, but that is an attribution decision rather than a build one, so it
+            // stays until it is handled somewhere else in the app.
+        }
+    }
 }
 
 dependencies {
