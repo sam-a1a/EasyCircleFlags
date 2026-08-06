@@ -7,6 +7,11 @@ plugins {
 
 android {
     namespace = "com.sam.easycircleflags"
+
+    // Held one release behind :app on purpose. This module is what JitPack builds, and
+    // an SDK the build image does not have is a broken publish rather than a warning.
+    // Lint's GradleDependency notice about 37 being available is expected here.
+    //noinspection GradleDependency
     compileSdk = 36
 
     defaultConfig {
