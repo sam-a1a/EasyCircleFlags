@@ -14,6 +14,14 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
+    // Published to JitPack, so the AAR is compiled against the lowest bytecode
+    // level we can get away with: anything newer would force every consumer
+    // onto a matching (or newer) JDK just to read our class files.
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
+    }
+
     buildFeatures {
         compose = true
     }
