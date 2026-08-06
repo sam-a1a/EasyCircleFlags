@@ -5,7 +5,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.painter.ColorPainter
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
@@ -33,11 +32,11 @@ fun CircleFlag(
     val context = LocalContext.current
 
     val placeholder: Painter = placeholderPainter
-        ?: placeholderColor?.let { ColorPainter(it) }
+        ?: placeholderColor?.let { remember(it) { CircleColorPainter(it) } }
         ?: painterResource(R.drawable.ic_flag_placeholder)
 
     val error: Painter = errorPainter
-        ?: errorColor?.let { ColorPainter(it) }
+        ?: errorColor?.let { remember(it) { CircleColorPainter(it) } }
         ?: painterResource(R.drawable.ic_flag_placeholder)
 
     // Rebuilt only when the target changes: composables re-run on every frame of a
