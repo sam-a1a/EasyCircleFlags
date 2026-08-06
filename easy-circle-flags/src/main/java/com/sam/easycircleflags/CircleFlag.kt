@@ -1,6 +1,5 @@
 package com.sam.easycircleflags
 
-import android.util.Log
 import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
@@ -17,7 +16,6 @@ import coil3.ImageLoader
 import coil3.compose.AsyncImage
 import coil3.request.ImageRequest
 import coil3.request.crossfade
-import coil3.size.Size
 
 @Composable
 fun CircleFlag(
@@ -33,9 +31,6 @@ fun CircleFlag(
     imageLoader: ImageLoader = CircleFlagImageLoader.get(LocalContext.current)
 ) {
     val context = LocalContext.current
-    val url = CircleFlagUrls.getFlagUrl(countryCode)
-
-    Log.d("CircleFlag", "Loading flag: countryCode=$countryCode url=$url")
 
     val placeholder: Painter = placeholderPainter
         ?: placeholderColor?.let { ColorPainter(it) }
@@ -45,16 +40,19 @@ fun CircleFlag(
         ?: errorColor?.let { ColorPainter(it) }
         ?: painterResource(R.drawable.ic_flag_placeholder)
 
-    val imageRequest = ImageRequest.Builder(context)
-        .data(url)
-        .size(Size.ORIGINAL)
-        .crossfade(true)
-        .listener(
-            onStart = { Log.d("CircleFlag", "onStart: $url") },
-            onSuccess = { _, _ -> Log.d("CircleFlag", "onSuccess: $url") },
-            onError = { _, result -> Log.e("CircleFlag", "onError: $url", result.throwable) }
-        )
-        .build()
+    // Rebuilt only when the target changes: composables re-run on every frame of a
+    // scroll, and an ImageRequest is not free to allocate.
+    //
+    // The request deliberately does not pin a size. Coil then resolves one from the
+    // layout constraints, which the size modifier below makes exact. Asking for
+    // Size.ORIGINAL instead would rasterise every flag at the SVG's own 512x512 - about
+    // 1 MB per flag in memory, against roughly 80 KB at a 48dp display size.
+    val imageRequest = remember(context, countryCode) {
+        ImageRequest.Builder(context)
+            .data(CircleFlagUrls.getFlagUrl(countryCode))
+            .crossfade(true)
+            .build()
+    }
 
     AsyncImage(
         model = imageRequest,
