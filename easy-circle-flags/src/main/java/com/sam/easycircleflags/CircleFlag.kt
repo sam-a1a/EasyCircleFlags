@@ -15,12 +15,9 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import coil3.ImageLoader
 import coil3.compose.AsyncImage
-import coil3.network.okhttp.OkHttpNetworkFetcherFactory  // ✅ Correct import
 import coil3.request.ImageRequest
 import coil3.request.crossfade
 import coil3.size.Size
-import coil3.svg.SvgDecoder
-import okhttp3.OkHttpClient
 
 @Composable
 fun CircleFlag(
@@ -32,7 +29,8 @@ fun CircleFlag(
     placeholderPainter: Painter? = null,
     placeholderColor: Color? = null,
     errorPainter: Painter? = null,
-    errorColor: Color? = null
+    errorColor: Color? = null,
+    imageLoader: ImageLoader = CircleFlagImageLoader.get(LocalContext.current)
 ) {
     val context = LocalContext.current
     val url = CircleFlagUrls.getFlagUrl(countryCode)
@@ -46,16 +44,6 @@ fun CircleFlag(
     val error: Painter = errorPainter
         ?: errorColor?.let { ColorPainter(it) }
         ?: painterResource(R.drawable.ic_flag_placeholder)
-
-    val svgImageLoader = remember {
-        ImageLoader.Builder(context.applicationContext)
-            .components {
-                // ✅ Use OkHttpNetworkFetcherFactory with a lambda returning OkHttpClient
-                add(OkHttpNetworkFetcherFactory(callFactory = { OkHttpClient() }))
-                add(SvgDecoder.Factory())
-            }
-            .build()
-    }
 
     val imageRequest = ImageRequest.Builder(context)
         .data(url)
@@ -75,6 +63,6 @@ fun CircleFlag(
         contentScale = contentScale,
         placeholder = placeholder,
         error = error,
-        imageLoader = svgImageLoader
+        imageLoader = imageLoader
     )
 }
