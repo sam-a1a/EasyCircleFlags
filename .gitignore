@@ -1,12 +1,12 @@
 *.iml
 .gradle
 /local.properties
-/.idea/caches
-/.idea/libraries
-/.idea/modules.xml
-/.idea/workspace.xml
-/.idea/navEditor.xml
-/.idea/assetWizardSettings.xml
+
+# The whole IDE directory, not the handful of files the template listed. What was
+# tracked was per-machine state - misc.xml pins the JDK by its local name, gradle.xml
+# lists locally linked modules - so it churned on every clone that opened the project.
+/.idea/
+
 .DS_Store
 /build
 /captures
